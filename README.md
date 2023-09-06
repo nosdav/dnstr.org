@@ -31,12 +31,12 @@ Example event:
 {
     "id": "exampleid1234567890",
     "pubkey": "examplepubkey1234567890",
-    "content": "example.com",
+    "content": "",
     "kind": 31034,
     "created_at": 1682327852,
     "tags": [
         [
-            "u", "example.com",
+            "u", "http://example.com",
             "d", ""
         ]
     ],
