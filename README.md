@@ -18,10 +18,11 @@ This is useful for services and individuals who wish to associate their Nostr pu
 
 A `kind 31034` event is used.
 
-The `content` SHOULD contain the domain name as a string.
+The `content` SHOULD be the empty string and is reserved for future use.  It could contain strings similar to a DNS record.
 
 The following tags are defined as REQUIRED:
 
+* `u` - uri is the uri of the domain to be redirected to.  The URI SHOULD NOT contain a path.  Clients SHOULD strip a path from any origin in the u tag.
 * `d` - should be the empty string reserved for future use.
 
 Example event:
@@ -35,8 +36,8 @@ Example event:
     "created_at": 1682327852,
     "tags": [
         [
-            "d",
-            ""
+            "u", "example.com",
+            "d", ""
         ]
     ],
     "sig": "exampleSignature"
