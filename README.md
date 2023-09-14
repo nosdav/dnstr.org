@@ -55,3 +55,7 @@ In order to lookup a .nostr domain you simply query the pubkey with kind=31034 a
 By having a Nostr public key mapped to a domain name, users and services can easily share, reference, or verify the authenticity of a domain based on its associated Nostr public key.
 
 For instance, if Alice wants to verify that `example.com` is genuinely associated with a specific Nostr public key, she can look up the Nostr event with `kind 31034` and verify the domain name in the content.
+
+## Related Work
+
+- [NOMEN](https://github.com/ursuscamp/nomen/blob/master/docs/SPEC.md)
