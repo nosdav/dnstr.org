@@ -58,4 +58,5 @@ For instance, if Alice wants to verify that `example.com` is genuinely associate
 
 ## Related Work
 
+- [PKARR](https://github.com/pubky/pkarr)
 - [NOMEN](https://github.com/ursuscamp/nomen/blob/master/docs/SPEC.md)
