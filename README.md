@@ -44,7 +44,7 @@ Example event:
 }
 ```
 
-Services and tools that wish to make use of this NIP SHOULD first verify the authenticity of the event by checking the signature and then resolve `npub.nostr` or `pubkey.nostr` to the domain name specified in the `u` tag.
+Services and tools that wish to make use of this NIP SHOULD first verify the authenticity of the event by checking the signature and then resolve `<npub>.nostr` or `<pubkey>.nostr` to the domain name specified in the `u` tag.
 
 ## DNS record set
 
@@ -81,7 +81,7 @@ A `content` that is empty or does not parse as a JSON object with a `records` ar
 
 ### Freshness and conflict resolution
 
-Kind `31034` falls in the parameterized replaceable range, so relays retain only the newest event per `pubkey` and `d` tag.  The record set with the highest `created_at` wins, serving the same role as PKARR's BEP44 sequence numbers.
+Kind `31034` falls in the parameterized replaceable range: relays SHOULD retain only the newest event per `pubkey` and `d` tag, and clients SHOULD select the event with the highest `created_at` when more than one is returned.  This serves the same role as PKARR's BEP44 sequence numbers.
 
 Resolvers SHOULD cache each verified record for its own `ttl` (optionally capped), and MAY apply a freshness policy that treats record sets as stale when `created_at` is older than a policy-defined age, prompting a re-query of relays.
 
@@ -119,7 +119,7 @@ The default resolver is `https://nostr.social` and can be overridden with the `D
 
 By having a Nostr public key mapped to a domain name, users and services can easily share, reference, or verify the authenticity of a domain based on its associated Nostr public key.
 
-For instance, if Alice wants to verify that `example.com` is genuinely associated with a specific Nostr public key, she can look up the Nostr event with `kind 31034` and verify the domain name in the content.
+For instance, if Alice wants to verify that `example.com` is genuinely associated with a specific Nostr public key, she can look up the Nostr event with `kind 31034` and verify the domain name in the `u` tag (and, optionally, any DNS records in the `content`).
 
 ## Related Work
 
