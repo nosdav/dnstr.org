@@ -50,6 +50,32 @@ Services and tools that wish to make use of this NIP SHOULD first verify the aut
 
 In order to lookup a .nostr domain you simply query the pubkey with kind=31034 and use the field in the content as the domain.  Some lookup services may choose to fallback to profile web page or nip-05 origin, as desired.
 
+### did:nostr resolution
+
+Lookups can also be performed via [did:nostr](https://did-nostr.com), where a Nostr public key is a W3C Decentralized Identifier.  A resolver serves DID documents at the well-known path:
+
+```
+https://<resolver>/.well-known/did/nostr/<pubkey>.json
+```
+
+The DID document contains the profile `website` (and optionally `alsoKnownAs` links), which provides the pubkey-to-domain mapping.
+
+### CLI
+
+The `dnstr` command resolves a Nostr identity to its domain using did:nostr.  It accepts an npub, a hex pubkey, or a `did:nostr:` identifier:
+
+```bash
+npx dnstr npub1melv683fw6n2mvhl5h6dhqd8mqfv3wmxnz4qph83ua4dk4006ezsrt5c24
+# https://melvincarvalho.com/
+
+dnstr did:nostr:de7ecd1e2976a6adb2ffa5f4db81a7d812c8bb6698aa00dcf1e76adb55efd645
+# https://melvincarvalho.com/
+
+dnstr --doc <id>   # print the full DID document
+```
+
+The default resolver is `https://nostr.social` and can be overridden with the `DNSTR_RESOLVER` environment variable.
+
 ## Use Case
 
 By having a Nostr public key mapped to a domain name, users and services can easily share, reference, or verify the authenticity of a domain based on its associated Nostr public key.
@@ -58,5 +84,6 @@ For instance, if Alice wants to verify that `example.com` is genuinely associate
 
 ## Related Work
 
+- [did:nostr](https://did-nostr.com)
 - [PKARR](https://github.com/pubky/pkarr)
 - [NOMEN](https://github.com/ursuscamp/nomen/blob/master/docs/SPEC.md)

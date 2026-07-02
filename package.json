@@ -1,8 +1,8 @@
 {
   "name": "dnstr",
   "type": "module",
-  "version": "0.0.1",
-  "description": "dnstr",
+  "version": "0.1.0",
+  "description": "Resolve Nostr identities to domain names via did:nostr",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -17,7 +17,8 @@
   "keywords": [
     "dnstr",
     "nostr",
-    "nomen"
+    "did",
+    "did-nostr"
   ],
   "author": "Melvin Carvalho",
   "license": "MIT",
@@ -25,7 +26,7 @@
     "url": "https://github.com/nosdav/dnstr.org/issues"
   },
   "homepage": "https://github.com/nosdav/dnstr.org#readme",
-  "dependencies": {
-    "axios": "^1.5.0"
+  "engines": {
+    "node": ">=18"
   }
 }
