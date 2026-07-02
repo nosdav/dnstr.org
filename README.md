@@ -44,7 +44,7 @@ Example event:
 }
 ```
 
-Services and tools that wish to make use of this NIP SHOULD first verify the authenticity of the event by checking the signature and then map the domain name specified in the `u` tag to `npub.nostr` or `pubkey.nostr`.
+Services and tools that wish to make use of this NIP SHOULD first verify the authenticity of the event by checking the signature and then resolve `npub.nostr` or `pubkey.nostr` to the domain name specified in the `u` tag.
 
 ## DNS record set
 
@@ -83,11 +83,11 @@ A `content` that is empty or does not parse as a JSON object with a `records` ar
 
 Kind `31034` falls in the parameterized replaceable range, so relays retain only the newest event per `pubkey` and `d` tag.  The record set with the highest `created_at` wins, serving the same role as PKARR's BEP44 sequence numbers.
 
-Resolvers SHOULD cache verified record sets for the record TTL, and MAY apply a freshness policy that treats record sets as stale when `created_at` is older than a policy-defined age, prompting a re-query of relays.
+Resolvers SHOULD cache each verified record for its own `ttl` (optionally capped), and MAY apply a freshness policy that treats record sets as stale when `created_at` is older than a policy-defined age, prompting a re-query of relays.
 
 ## Implementation
 
-In order to lookup a .nostr domain you simply query the pubkey with kind=31034 and use the `u` tag as the domain, treating the `content` (if present) as the DNS record set.  Some lookup services may choose to fallback to profile web page or nip-05 origin, as desired.
+In order to lookup a .nostr domain you simply query the pubkey with kind=31034 and the `d` tag set to the empty string, then use the `u` tag as the domain, treating the `content` (if present) as the DNS record set.  Some lookup services may choose to fallback to profile web page or nip-05 origin, as desired.
 
 ### did:nostr resolution
 
