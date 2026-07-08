@@ -35,10 +35,8 @@ Example event:
     "kind": 31034,
     "created_at": 1682327852,
     "tags": [
-        [
-            "u", "http://example.com",
-            "d", ""
-        ]
+        ["u", "http://example.com"],
+        ["d", ""]
     ],
     "sig": "exampleSignature"
 }
