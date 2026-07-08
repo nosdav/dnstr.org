@@ -14,15 +14,38 @@ const DEFAULT_RESOLVER = 'https://nostr.social'
 
 const CHARSET = 'qpzry9x8gf2tvdw0s3jn54khce6mua7l'
 
+// BIP-173 checksum: polymod over the expanded prefix plus all data
+// words (including the 6 checksum words) must equal 1.
+function bech32VerifyChecksum (prefix, words) {
+  const GEN = [0x3b6a57b2, 0x26508e6d, 0x1ea119fa, 0x3d4233dd, 0x2a1462b3]
+  const values = []
+  for (const c of prefix) values.push(c.charCodeAt(0) >> 5)
+  values.push(0)
+  for (const c of prefix) values.push(c.charCodeAt(0) & 31)
+  values.push(...words)
+  let chk = 1
+  for (const v of values) {
+    const b = chk >> 25
+    chk = ((chk & 0x1ffffff) << 5) ^ v
+    for (let i = 0; i < 5; i++) {
+      if ((b >> i) & 1) chk ^= GEN[i]
+    }
+  }
+  return chk === 1
+}
+
 function bech32Decode (str) {
   const pos = str.lastIndexOf('1')
   if (pos < 1 || pos + 7 > str.length) throw new Error('invalid bech32')
-  const prefix = str.slice(0, pos)
+  const prefix = str.slice(0, pos).toLowerCase()
   const words = []
   for (const c of str.slice(pos + 1).toLowerCase()) {
     const v = CHARSET.indexOf(c)
     if (v === -1) throw new Error('invalid bech32 character')
     words.push(v)
+  }
+  if (!bech32VerifyChecksum(prefix, words)) {
+    throw new Error('invalid bech32 checksum')
   }
   // convert 5-bit words to bytes, dropping the 6-word checksum
   const data = words.slice(0, -6)
